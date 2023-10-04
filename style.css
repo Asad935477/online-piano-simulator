@@ -1,97 +1,170 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
+*{
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+  font-family: 'Poppins', sans-serif;
+}
+
+body{
+  height: 100%;
+  width: 100%;
   display: flex;
-  place-items: center;
-  min-width: 320px;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px ;
   min-height: 100vh;
+  background: #e3f2fd;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.wrapper {
+  border-radius: 30px;
+  background:rgb(32, 32, 32);
+  padding: 35px 40px;
 }
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.wrapper header{
+  color: #a2a2a2;
+  display: flex;
+  align-items: center;
+  justify-content: space-around
+}
+header h2{
+  font-size:1.6rem;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+header h2 span{
+  font-weight: 300;
+  font-size: 1rem;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+header .column{
+  display: flex;
+  align-items: center;
 }
-.logo.vanilla:hover {
-  filter: drop-shadow(0 0 2em #f7df1eaa);
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
+header .column span{
   font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+  font-size: 1.19rem;
+  margin-right: 15px;
+}
+.volume-slider input{
+  accent-color: white;
+  outline: none;
+}
+.keys-checkbox input{
+  appearance: none;
+  width: 60px;
+  height: 30px;
+  position: relative;
+  outline: none;
+  appearance: none;
+  background: #4b4b4b;
+  border-radius: 30px;
   cursor: pointer;
-  transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
+.keys-checkbox input::before{
+  content:'';
+  height: 20px;
+  width: 20px;
+  top: 50%;
+  left: 5px;
+  border-radius: inherit;
+  position: absolute;
+  background: #8c8c8c;
+  transform: translateY(-50%);
+  transition: all 0.3s ease;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.keys-checkbox input:checked::before{
+  left: 35px;
+  background: white;
+  transition: all 0.3s ease;
+}
+.piano-keys{
+  display:flex;
+  margin-top: 40px;
+}
+.piano-keys .key{
+  list-style: none;
+  user-select: none;
+  position: relative;
+  color: #a2a2a2;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.piano-keys .white{
+  width: 70px;
+  border: 1px solid black;
+  height: 230px;
+  border-radius: 8px;
+  background: linear-gradient(white 96%, #eee 4%);
+}
+.piano-keys .black{
+  width: 44px;
+  height: 140px;
+  border-radius: 0 0 5px 5px;
+  margin: 0 -22px;
+  z-index: 2;
+  background: linear-gradient(#333, #000 );
+}
+.piano-keys .white.active{
+  box-shadow: inset -5px 5px 10px rgba(225,225,225,0.1);
+  background: linear-gradient(to bottom,white 0%, #b9b8b8 100%);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+.piano-keys .black.active{
+  box-shadow: inset -5px 5px 20px rgba(0,0,0,0.2);
+  background: linear-gradient(to bottom,#000, #434343);
+}
+
+.piano-keys span{
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+  font-size: 1.13rem;
+}
+
+.piano-keys .key.hide span{
+  display: none;
+}
+
+@media screen and (max-width: 815px) {
+  .wrapper {
+    padding: 25px;
   }
-  a:hover {
-    color: #747bff;
+  header {
+    flex-direction: column;
   }
-  button {
-    background-color: #f9f9f9;
+  header :where(h2, .column) {
+    margin-bottom: 13px;
+  }
+  .volume-slider input {
+    max-width: 100px;
+  }
+  .piano-keys {
+    margin-top: 20px;
+  }
+  .piano-keys .key:where(:nth-child(9), :nth-child(10)) {
+    display: none;
+  }
+  .piano-keys .black {
+    height: 100px;
+    width: 40px;
+    margin: 0 -20px 0 -20px;
+  }
+  .piano-keys .white {
+    height: 180px;
+    width: 60px;
+  }
+}
+@media screen and (max-width: 615px) {
+  .piano-keys .key:nth-child(13),
+  .piano-keys .key:nth-child(14),
+  .piano-keys .key:nth-child(15),
+  .piano-keys .key:nth-child(16),
+  .piano-keys .key :nth-child(17) {
+    display: none;
+  }
+  .piano-keys .white {
+    width: 50px;
   }
 }

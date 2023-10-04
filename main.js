@@ -1,24 +1,42 @@
 import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+const pianoKeys = document.querySelectorAll(".piano-keys .key"),
+volumeSlider = document.querySelector(".volume-slider input"),
+keysCheckbox = document.querySelector(".keys-checkbox input");
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+let allKeys = [],
+audio = new Audio(`tunes/a.wav`); // by default, audio src is "a" tune
 
-setupCounter(document.querySelector('#counter'))
+const playTune = (key) => {
+    audio.src = `tunes/${key}.wav`; // passing audio src based on key pressed 
+    audio.play(); // playing audio
+
+    const clickedKey = document.querySelector(`[data-key="${key}"]`); // getting clicked key element
+    clickedKey.classList.add("active"); // adding active class to the clicked key element
+    setTimeout(() => { // removing active class after 150 ms from the clicked key element
+        clickedKey.classList.remove("active");
+    }, 150);
+}
+
+pianoKeys.forEach(key => {
+    allKeys.push(key.dataset.key); // adding data-key value to the allKeys array
+    // calling playTune function with passing data-key value as an argument
+    key.addEventListener("click", () => playTune(key.dataset.key));
+});
+
+const handleVolume = (e) => {
+    audio.volume = e.target.value; // passing the range slider value as an audio volume
+}
+
+const showHideKeys = () => {
+    // toggling hide class from each key on the checkbox click
+    pianoKeys.forEach(key => key.classList.toggle("hide"));
+}
+
+const pressedKey = (e) => {
+    // if the pressed key is in the allKeys array, only call the playTune function
+    if(allKeys.includes(e.key)) playTune(e.key);
+}
+
+keysCheckbox.addEventListener("click", showHideKeys);
+volumeSlider.addEventListener("input", handleVolume);
+document.addEventListener("keydown", pressedKey);
